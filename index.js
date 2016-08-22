@@ -56,6 +56,10 @@ if (process.env.TOKEN || process.env.SLACK_TOKEN) {
     process.exit(1);
 }
 
+var apiai = require('botkit-middleware-apiai')({
+   token: process.env.APIAI_TOKEN
+});
+controller.middleware.receive.use(apiai.receive);
 
 /**
  * A demonstration for how to handle websocket events. In this case, just log when we have and have not
@@ -81,20 +85,25 @@ controller.on('rtm_close', function (bot) {
  */
 // BEGIN EDITING HERE!
 
-controller.on('bot_channel_join', function (bot, message) {
-    bot.reply(message, "I'm here!")
-});
+// controller.on('bot_channel_join', function (bot, message) {
+//     bot.reply(message, "I'm here!")
+// });
+//
+// controller.hears(['hello'], ['mention','direct_mention','direct_message'], function (bot, message) {
+//     bot.reply(message, 'Hello!');
+// });
 
-controller.hears('hello', 'direct_message', function (bot, message) {
-    bot.reply(message, 'Hello!');
-});
 
+controller.hears(['Slacky-greeting'], 'direct_message', apiai.hears, function (
+bot, message) {
+   bot.reply(message, 'Hello Aaron!');
+});
 
 /**
  * AN example of what could be:
  * Any un-handled direct mention gets a reaction and a pat response!
  */
-//controller.on('direct_message,mention,direct_mention', function (bot, message) {
+// controller.on('direct_message,mention,direct_mention', function (bot, message) {
 //    bot.api.reactions.add({
 //        timestamp: message.ts,
 //        channel: message.channel,
@@ -103,6 +112,11 @@ controller.hears('hello', 'direct_message', function (bot, message) {
 //        if (err) {
 //            console.log(err)
 //        }
-//        bot.reply(message, 'I heard you loud and clear boss.');
+//
+//        // console.log(message);
+//
+//       if(message.text == 'yo') {
+//           bot.reply(message, 'Yo - I heard you loud and clear boss.');
+//       }
 //    });
-//});
+// });
