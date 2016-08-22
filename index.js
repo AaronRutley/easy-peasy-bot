@@ -94,9 +94,14 @@ controller.on('rtm_close', function (bot) {
 // });
 
 
-controller.hears(['Slacky-greeting'], 'direct_message', apiai.hears, function (
-bot, message) {
-   bot.reply(message, 'Hello Aaron!');
+controller.hears(['flight'], 'direct_message', apiai.hears, function ( bot, message) {
+
+    if(message.fulfillment.speech !== '') {
+        bot.reply(message, message.fulfillment.speech);
+    } else {
+        bot.reply(message, "You requested to fly to " + message.entities['geo-city'] + " in " + message.entities['geo-country'] + " on " + message.entities['date']+".");
+    }
+
 });
 
 /**
