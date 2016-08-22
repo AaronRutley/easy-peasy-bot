@@ -1,4 +1,4 @@
-# easy-peasy-bot
+# ar-peasy-bot
 
 ## The story of a (Slack)bot
 
