@@ -1,4 +1,4 @@
-name: AR Slack Bot for Flights
+name: AR Slack Bot for Flight
 description: A simple node.js bot for Slack
 avatar: avatar.png
 config:
